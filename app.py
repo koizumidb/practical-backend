@@ -9,7 +9,12 @@ from db_control import crud, mymodels_MySQL
 from db_control.create_tables_MySQL import init_db
 
 # アプリケーション初期化時にテーブルを作成
-init_db()
+@app.on_event("startup")
+def on_startup():
+    try:
+        init_db()
+    except Exception as e:
+        print("init_db failed:", repr(e))
 
 class Customer(BaseModel):
     customer_id: str
