@@ -16,3 +16,5 @@ venv/
 # OS / Editor
 .DS_Store
 .vscode/
+
+!DigiCertGlobalRootG2.crt.pem
