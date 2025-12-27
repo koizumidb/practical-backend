@@ -23,21 +23,23 @@ jobs:
       - name: Install dependencies into .python_packages (Azure default)
         run: |
           python -m pip install --upgrade pip
+          rm -rf .python_packages
           mkdir -p .python_packages/lib/site-packages
           pip install -r requirements.txt --target=".python_packages/lib/site-packages"
 
-      - name: Upload artifact for deployment jobs
+      - name: Upload artifact for deployment jobs (only required files)
         uses: actions/upload-artifact@v4
         with:
           name: python-app
           path: |
-            .
-            !.git/
-            !.github/
-            !__pycache__/
-            !antenv/
-            !venv/
-            !.venv/
+            app.py
+            requirements.txt
+            db_control/**
+            .python_packages/**
+            README.md
+            DigiCertGlobalRootG2.crt.pem
+            migrate_sqlite_to_mysql.py
+          if-no-files-found: error
 
   deploy:
     runs-on: ubuntu-latest
